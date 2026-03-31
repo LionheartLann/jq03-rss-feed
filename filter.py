@@ -43,6 +43,7 @@ def matches_exclude(title: str) -> bool:
 def filter_notices(
     notices: list[dict],
     keywords: Sequence[str] | None = None,
+    exclude_enabled: bool = True,
 ) -> list[dict]:
     """Return notices that contain JQ03 AND match IT-related keywords.
 
@@ -58,7 +59,7 @@ def filter_notices(
         if not matches_it_keywords(title, keywords):
             logger.debug("Skipped (no IT keyword): %s", title)
             continue
-        if matches_exclude(title):
+        if exclude_enabled and matches_exclude(title):
             logger.debug("Excluded (non-IT domain): %s", title)
             continue
         matched.append(n)

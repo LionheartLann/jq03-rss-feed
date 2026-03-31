@@ -56,7 +56,12 @@ def run_job(config: dict, dry_run: bool = False) -> None:
 
     # 3. Filter by IT keywords
     keywords = config.get("keywords")
-    matched = filter_notices(enriched, keywords)
+    filter_cfg = config.get("filter", {})
+    matched = filter_notices(
+        enriched,
+        keywords,
+        exclude_enabled=filter_cfg.get("exclude_enabled", True),
+    )
 
     if not matched:
         logger.info("No IT-related JQ03 notices today, done.")
